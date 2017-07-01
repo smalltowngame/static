@@ -25,7 +25,7 @@ SMLTOWN.Transform = {
 //        } else if ($("#smltown_html").width() > $("#smltown_html").height()) { //horizontal
             $("#smltown_html").addClass("smltown_static");
         } else {
-            $("#smltown_console").removeClass("smltown_consoleExtended");
+            //$("#smltown_console").removeClass("smltown_consoleExtended"); //THIS CAN CAUSE IMPOSSIBLE WRITTING CHAT BUG ON ANDROID
         }
 
         //game width persistent style
@@ -169,12 +169,14 @@ SMLTOWN.Transform = {
     ,
     //ON INPUT CHAT FOCUS OUT ////////////////////////////////////////////////
     chatFocusOut: function () { //LET DEVICES FUNCTION CALL!!!
+        console.log("chatFocusOut()");
         $('#smltown_chatInput').blur();
         $("#smltown_console").removeClass("smltown_consoleExtended");
         this.chatUpdate();
     }
     ,
     chatUpdate: function () {
+        console.log("chatUpdate()");
         if (!SMLTOWN.touch) {
             var Y = $("#smltown_consoleLog > div").height();
             //$('#smltown_consoleLog > div').animate({scrollTop: Y});
