@@ -14,22 +14,19 @@ var touchstart = ('ontouchstart' in document.documentElement ? "touchstart" : "t
 var touchmove = ('ontouchmove' in document.documentElement ? "touchmove" : "touchmove mousemove");
 var touchend = ('ontouchend' in document.documentElement ? "touchend" : "touchend mouseup");
 
-//jQuery
-(function ($) { //unify touchstart and mousedown to prevent double events
-
-    $.fn.touchstart = function (event) {
-        if ('ontouchstart' in document.documentElement) {
-            this.bind("touchstart", function (e) {
-                event.call(this, e);
-            });
-        } else { //if not touch
-            this.bind("mousedown", function (e) {
-                event.call(this, e);
-            });
-        }
-        return this;
-    };
-})(jQuery);
+//unify touchstart and mousedown to prevent double events
+$.fn.touchstart = function (event) {
+    if ('ontouchstart' in document.documentElement) {
+        this.bind("touchstart", function (e) {
+            event.call(this, e);
+        });
+    } else { //if not touch
+        this.bind("mousedown", function (e) {
+            event.call(this, e);
+        });
+    }
+    return this;
+};
 
 //?
 //$('input').bind('focus', function() {
@@ -341,8 +338,7 @@ SMLTOWN.Events = {
         } else {
             if (!SMLTOWN.user.card) {
                 SMLTOWN.Message.flash("_noCard");
-            }
-            else if ($("#smltown_card").hasClass("smltown_swipe")) {
+            } else if ($("#smltown_card").hasClass("smltown_swipe")) {
                 $("#smltown_card").addClass("smltown_visible");
             }
         }
@@ -362,6 +358,7 @@ SMLTOWN.Events = {
 
         div.off("touchstart");
         div.on("touchstart", function (e) { //necessary top != auto
+            e.stopPropagation(); //prevent double tap in comment div in android?
 
             position = null; //reset final position to prevent calculations 
             var thisHeight = 0;
@@ -431,7 +428,9 @@ SMLTOWN.Events = {
                     SMLTOWN.Transform.updateHeader();
                 }
 
-            }).one("touchend", function () {
+            }).one("touchend", function (e) {
+                e.stopPropagation(); //prevent double tap in comment div in android?
+                
                 $(this).off("touchmove");
                 if (!moved) {
                     return;
@@ -472,7 +471,7 @@ SMLTOWN.Events = {
     menuEvents: function () {
         console.log($("#smltown_menuAll").length)
         var _this = this;
-        
+
         //ON GAME
         this.menuInput("password", function (val) {
             SMLTOWN.Server.request.setPassword(val);

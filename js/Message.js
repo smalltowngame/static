@@ -172,13 +172,14 @@ SMLTOWN.Message = {
 
         //prevent override important messages!
         if (!important && $("#smltown_notification").hasClass("important")) {
+            console.log('$("#smltown_notification").hasClass("important")');
             return;
         }
         if (important) {
             $("#smltown_notification").addClass("important");
         }
 
-        console.log("notify");
+        //console.log("notify");
         if (gameId && SMLTOWN.Game.info.id != gameId) {
             this.external(text, gameId);
             return;
@@ -215,7 +216,7 @@ SMLTOWN.Message = {
                 e.preventDefault(); //prevent player select
                 //hide
                 $this.removeNotification(true);
-                if (typeof okCallback == "function") {
+                if ("function" == typeof okCallback) { //COULD BE 'true'
                     clearTimeout(SMLTOWN.temp.wakeUpInterval);
                     okCallback();
                 }
@@ -251,13 +252,8 @@ SMLTOWN.Message = {
         return div;
     }
     ,
-    removeNotification: function (force) {
-        var notification = $("#smltown_notification");
-//        if (!force && notification.hasClass("smltown_message")) {
-//            return;
-//        }
-        notification.hide();
-        notification.removeClass("important");
+    removeNotification: function () {
+        $("#smltown_notification").remove();
     }
     ,
     setLog: function (text, type) {

@@ -344,12 +344,6 @@ SMLTOWN.Update = {
                 iColor++;
 
                 $('<style>.id' + player.id + ' {font-weight: bold}</style>').appendTo('head');
-                //spectator user
-                if (1 == SMLTOWN.user.admin) {
-                    $("#smltown_html").addClass("smltown_isAdmin");
-                    SMLTOWN.Add.quitPlayerButtons();
-
-                }
 
                 div.append("<div class='smltown_spectatorText'>" + SMLTOWN.Message.translate("spectatorMode") + "</div>");
                 //play game event
@@ -395,6 +389,12 @@ SMLTOWN.Update = {
             if (SMLTOWN.user.id == player.sel) {
                 div.find(".smltown_name").addClass("smltown_enemy");
             }
+        }
+
+        //ADD QUIT PLAYERS BUTTONS AFTER LIST ALL PLAYERS!
+        if (1 == SMLTOWN.user.admin) {
+            $("#smltown_html").addClass("smltown_isAdmin");
+            SMLTOWN.Add.quitPlayerButtons();
         }
 
         //check user was removed or never played
@@ -493,7 +493,7 @@ SMLTOWN.Update = {
             var card = SMLTOWN.cards[SMLTOWN.user.card];
             SMLTOWN.Add.backgroundCard($("#smltown_cardFront .smltown_cardImage"), SMLTOWN.user.card);
             var name, desc, quote = "";
-            
+
             if (card) {
                 name = card.lang.name;
                 desc = card.lang.rules;
@@ -539,12 +539,12 @@ SMLTOWN.Update = {
 
         if (name) {
             name = name.toUpperCase();
-        }        
-        div.html(name);        
+        }
+        div.html(name);
 
         descDiv.append('<p class="smltown_quote">"' + quote + '"</p>');
         div.append(descDiv);
-        
+
         return div;
     }
     ,
